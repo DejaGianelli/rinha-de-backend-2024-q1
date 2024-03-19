@@ -1,10 +1,20 @@
 -- Coloque scripts iniciais aqui
 CREATE TABLE clientes (
-    id SERIAL NOT NULL PRIMARY KEY,
-    nome VARCHAR(255) NOT NULL,
-    limite INTEGER NOT NULL,
-    saldo_inicial INTEGER NOT NULL DEFAULT 0
+  id SERIAL NOT NULL PRIMARY KEY,
+  nome VARCHAR(255) NOT NULL,
+  limite INTEGER NOT NULL,
+  saldo_inicial INTEGER NOT NULL DEFAULT 0
 );
+
+
+CREATE TABLE transacoes (
+  id SERIAL NOT NULL PRIMARY KEY,
+  amount INTEGER NOT NULL,
+  type VARCHAR(1) NOT NULL,
+  customer_id INTEGER NOT NULL,
+  FOREIGN KEY (customer_id) REFERENCES clientes(id)
+);
+
 
 DO $$
 BEGIN

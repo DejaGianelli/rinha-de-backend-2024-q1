@@ -76,8 +76,8 @@ func doTransactionHandler(c *gin.Context) {
 	}
 
 	var customer customer
-	row := db.QueryRow("SELECT limite, saldo_inicial FROM clientes WHERE id = $1", customerId)
-	if err := row.Scan(&customer.Limit, &customer.Balance); err != nil {
+	row := db.QueryRow("SELECT id, limite, saldo_inicial FROM clientes WHERE id = $1", customerId)
+	if err := row.Scan(&customer.Id, &customer.Limit, &customer.Balance); err != nil {
 		if err == sql.ErrNoRows {
 			c.Status(http.StatusNotFound)
 			return
@@ -85,13 +85,26 @@ func doTransactionHandler(c *gin.Context) {
 		log.Fatal(err)
 	}
 
+	var newBalance int
 	if newTransaction.Type == "d" {
-		newBalance := customer.Balance - newTransaction.Value
+		newBalance = customer.Balance - newTransaction.Value
 		if newBalance < (customer.Limit * -1) {
 			c.Status(http.StatusUnprocessableEntity)
 			return
 		}
+	} else {
+		newBalance = customer.Balance + newTransaction.Value
 	}
 
+	_, err = db.Exec("INSERT INTO transacoes (amount, type, customer_id) VALUES ($1, $2, $3)", newTransaction.Value, newTransaction.Type, customer.Id)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	db.Exec("UPDATE clientes SET saldo_inicial = $1 WHERE id = $2", newBalance, customer.Id)
+
+	customer.Balance = newBalance
+
 	c.IndentedJSON(http.StatusOK, gin.H{"limite": customer.Limit, "saldo": customer.Balance})
+
 }
