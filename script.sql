@@ -1,24 +1,24 @@
 -- Coloque scripts iniciais aqui
-CREATE TABLE clientes (
+CREATE TABLE customers (
   id SERIAL NOT NULL PRIMARY KEY,
-  nome VARCHAR(255) NOT NULL,
-  limite INTEGER NOT NULL,
-  saldo_inicial INTEGER NOT NULL DEFAULT 0
+  name VARCHAR(255) NOT NULL,
+  "limit" INTEGER NOT NULL,
+  balance INTEGER NOT NULL DEFAULT 0
 );
 
 
-CREATE TABLE transacoes (
+CREATE TABLE transactions (
   id SERIAL NOT NULL PRIMARY KEY,
   amount INTEGER NOT NULL,
-  type VARCHAR(1) NOT NULL,
+  "type" VARCHAR(1) NOT NULL,
   customer_id INTEGER NOT NULL,
-  FOREIGN KEY (customer_id) REFERENCES clientes(id)
+  FOREIGN KEY (customer_id) REFERENCES customers(id)
 );
 
 
 DO $$
 BEGIN
-  INSERT INTO clientes (nome, limite)
+  INSERT INTO customers (name, "limit")
   VALUES
     ('o barato sai caro', 1000 * 100),
     ('zan corp ltda', 800 * 100),
