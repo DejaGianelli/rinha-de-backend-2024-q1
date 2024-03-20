@@ -89,7 +89,7 @@ func doTransactionHandler(c *gin.Context) {
 
 	//Do Bussiness Logic
 	var customer customer
-	row := tx.QueryRowContext(c, "SELECT id, limite, saldo_inicial FROM clientes WHERE id = $1", customerId)
+	row := tx.QueryRowContext(c, "SELECT id, limite, saldo_inicial FROM clientes WHERE id = $1 FOR UPDATE", customerId)
 	if err := row.Scan(&customer.Id, &customer.Limit, &customer.Balance); err != nil {
 		if err == sql.ErrNoRows {
 			c.Status(http.StatusNotFound)
