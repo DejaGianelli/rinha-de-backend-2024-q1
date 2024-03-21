@@ -39,7 +39,7 @@ func main() {
 	}
 
 	router.POST("/clientes/:id/transacoes", transactionHandler.Handle)
-	router.POST("/clientes/:id/extrato", extractHandler.Handler)
+	router.GET("/clientes/:id/extrato", extractHandler.Handler)
 
 	router.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }

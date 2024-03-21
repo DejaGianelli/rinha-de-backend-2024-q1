@@ -12,6 +12,8 @@ CREATE TABLE transactions (
   amount INTEGER NOT NULL,
   "type" VARCHAR(1) NOT NULL,
   customer_id INTEGER NOT NULL,
+  realized_at TIMESTAMP NOT NULL,
+  description VARCHAR(10) NOT NULL,
   FOREIGN KEY (customer_id) REFERENCES customers(id)
 );
 

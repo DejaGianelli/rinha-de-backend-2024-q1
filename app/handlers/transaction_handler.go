@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"slices"
 	"strconv"
+	"time"
 	"unicode/utf8"
 
 	"github.com/DejaGianelli/rinha-de-backend-2024-q1/models"
@@ -82,7 +83,12 @@ func (handler *TransactionHandler) Handle(c *gin.Context) {
 		newBalance = customer.Balance + newTransaction.Value
 	}
 
-	_, err = tx.ExecContext(c, "INSERT INTO transactions (amount, type, customer_id) VALUES ($1, $2, $3)", newTransaction.Value, newTransaction.Type, customer.Id)
+	_, err = tx.ExecContext(c, "INSERT INTO transactions (amount, type, customer_id, description, realized_at) VALUES ($1, $2, $3, $4, $5)",
+		newTransaction.Value,
+		newTransaction.Type,
+		customer.Id,
+		newTransaction.Description,
+		time.Now())
 	if err != nil {
 		log.Fatal(err)
 	}
