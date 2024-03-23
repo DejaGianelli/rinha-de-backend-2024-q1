@@ -7,13 +7,21 @@ import (
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
 	"log"
+	"os"
 )
 
 func main() {
+	//Load env variables
+	DB_HOSTNAME := os.Getenv("DB_HOSTNAME")
+	if DB_HOSTNAME == "" {
+		DB_HOSTNAME = "localhost"
+	}
+
 	//Open Connection Pool to Postgres
 	var db *sql.DB
 	var err error
-	connStr := "postgres://admin:123@localhost/rinha?sslmode=disable"
+
+	connStr := "postgres://admin:123@" + DB_HOSTNAME + "/rinha?sslmode=disable"
 	db, err = sql.Open("postgres", connStr)
 	defer db.Close()
 	if err != nil {
