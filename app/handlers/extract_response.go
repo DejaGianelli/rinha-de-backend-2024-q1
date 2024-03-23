@@ -11,8 +11,8 @@ type ExtractResponse struct {
 
 type BalanceResponse struct {
 	Total       int       `json:"total"`
-	ExtractDate time.Time `json:"extract_date"`
-	Limit       int       `json:"limit"`
+	ExtractDate time.Time `json:"data_extrato"`
+	Limit       int       `json:"limite"`
 }
 
 type LastTransactionResponse struct {
