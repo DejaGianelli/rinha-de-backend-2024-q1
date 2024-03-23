@@ -17,6 +17,7 @@ CREATE TABLE transactions (
   FOREIGN KEY (customer_id) REFERENCES customers(id)
 );
 
+CREATE INDEX transactions_customer_id_idx ON transactions (customer_id);
 
 DO $$
 BEGIN
