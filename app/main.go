@@ -22,8 +22,13 @@ func main() {
 	var err error
 
 	connStr := "postgres://admin:123@" + DB_HOSTNAME + "/rinha?sslmode=disable"
+
 	db, err = sql.Open("postgres", connStr)
+	db.SetMaxOpenConns(50)
+	db.SetMaxIdleConns(50)
+
 	defer db.Close()
+
 	if err != nil {
 		log.Fatal(err)
 	}
