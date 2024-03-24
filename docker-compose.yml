@@ -6,6 +6,7 @@ services:
     # publicamente acessível! Ex.: hub.docker.com
     #image: ana/minha-api-matadora:latest
     build: .
+    image: rinha-backend-2024
     hostname: api01
     environment:
       - DB_HOSTNAME=db
@@ -20,8 +21,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.6"
-          memory: "200MB"
+          cpus: "0.35"
+          memory: "45MB"
 
   api02:
     # Essa sintaxe reusa o que foi declarado em 'api01'.
@@ -45,8 +46,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.17"
-          memory: "10MB"
+          cpus: "0.25"
+          memory: "40MB"
 
   db:
     image: postgres:latest
@@ -66,8 +67,8 @@ services:
           # aqui declarados é de 1.5 unidades de CPU e 550MB
           # de memória. A distribuição feita aqui é apenas
           # um exemplo – distribua como quiser.
-          cpus: "0.13"
-          memory: "140MB"
+          cpus: "0.55"
+          memory: "420MB"
 
 # O uso do modo `bridge` deve ser adequado à carga que será usada no teste.
 # A edição anterior se beneficiou do modo host pois o volume de requisições
